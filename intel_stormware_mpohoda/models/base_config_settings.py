@@ -4,7 +4,7 @@
 import logging
 
 from odoo import fields, models
-from ..mpohoda_request import MpohodaAPI
+import mpohoda_request.MpohodaAPI
 
 _logger = logging.getLogger(__name__)
 
