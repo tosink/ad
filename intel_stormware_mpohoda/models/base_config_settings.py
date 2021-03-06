@@ -4,7 +4,7 @@
 import logging
 
 from odoo import fields, models
-# from mpohoda_request import MpohodaAPI
+from mpohoda_request import MpohodaAPI
 
 _logger = logging.getLogger(__name__)
 
@@ -48,10 +48,10 @@ class ResConfigSettings(models.TransientModel):
         related='company_id.mserver_document_path', 
         readonly=False)
     
-    # def connect_mpohoda(self):
-    #     mpohoda = MpohodaAPI(self.mserver_host, self.mserver_port, self.mserver_user, \
-    #         self.mserver_password, self.company_id.registry)
-    #     mpohoda.get_payment_types() 
-    #     return True
+    def connect_mpohoda(self):
+        mpohoda = MpohodaAPI(self.mserver_host, self.mserver_port, self.mserver_user, \
+            self.mserver_password, self.company_id.registry)
+        mpohoda.get_payment_types() 
+        return True
 
     

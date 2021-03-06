@@ -51,40 +51,40 @@ def load_string(string_dump):
     return string_dump.text
 
 
-# class MpohodaAPI():
+class MpohodaAPI():
     
-#     def __init__(self, host, port, user, password, registry):
-#         self.host = host #
-#         self.port = port #666
-#         self.user = user #Admin
-#         self.password = password #Admin:1Juzepe1
-#         self.registry = registry
-#         self.authorization_code = ''
-#         if self.user and self.password:
-#             self.authorization_code =  base64.b64encode(self.user+':'+self.password)
+    def __init__(self, host, port, user, password, registry):
+        self.host = host #
+        self.port = port #666
+        self.user = user #Admin
+        self.password = password #Admin:1Juzepe1
+        self.registry = registry
+        self.authorization_code = ''
+        if self.user and self.password:
+            self.authorization_code =  base64.b64encode(self.user+':'+self.password)
     
 
-    # def get_payment_types(self):
-    #     payload = """<?xml version="1.0" encoding="Windows-1250"?>
-    #                     <dat:dataPack version="2.0" id="Ex008" ico="dddd" application="StwTest" note="Žádost o seznamy" 
-    #                     xmlns:dat="http://www.stormware.cz/schema/version_2/data.xsd" 
-    #                     xmlns:lst="http://www.stormware.cz/schema/version_2/list.xsd">
+    def get_payment_types(self):
+        payload = """<?xml version="1.0" encoding="Windows-1250"?>
+                        <dat:dataPack version="2.0" id="Ex008" ico="dddd" application="StwTest" note="Žádost o seznamy" 
+                        xmlns:dat="http://www.stormware.cz/schema/version_2/data.xsd" 
+                        xmlns:lst="http://www.stormware.cz/schema/version_2/list.xsd">
 
-    #                         <dat:dataPackItem id="SC001" version="2.0">
-    #                     <lst:listBankAccountRequest version="2.0" bankAccountVersion="2.0">
-    #                     <lst:requestBankAccount> </lst:requestBankAccount>
-    #                     </lst:listBankAccountRequest>
-    #                         </dat:dataPackItem>
+                            <dat:dataPackItem id="SC001" version="2.0">
+                        <lst:listBankAccountRequest version="2.0" bankAccountVersion="2.0">
+                        <lst:requestBankAccount> </lst:requestBankAccount>
+                        </lst:listBankAccountRequest>
+                            </dat:dataPackItem>
 
-    #                 </dat:dataPack>"""
-    #     headers = {
-    #         'Stw-Authorization': 'Basic {}'.format(self.authorization_code),
-    #         'Authorization': 'Basic {}'.format(self.authorization_code),
-    #         'Content-Type': 'text/plain',
-    #     }
+                    </dat:dataPack>"""
+        headers = {
+            'Stw-Authorization': 'Basic {}'.format(self.authorization_code),
+            'Authorization': 'Basic {}'.format(self.authorization_code),
+            'Content-Type': 'text/plain',
+        }
 
-    #     response = requests.request("POST", self.host, data=payload, headers=headers) 
-    #     print(response)
+        response = requests.request("POST", self.host, data=payload, headers=headers) 
+        print(response)
         
 
         
