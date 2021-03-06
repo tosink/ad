@@ -4,7 +4,8 @@
 import logging
 
 from odoo import fields, models
-import mpohoda_request.MpohodaAPI
+from odoo.addons.intel_stormware_mpohoda.models.mpohoda_request import MpohodaAPI
+
 
 _logger = logging.getLogger(__name__)
 
