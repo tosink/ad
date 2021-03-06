@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.intel.stormware.mpohoda</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='default_taxes_setting_container']" position="after">
+                <h2>Stormware MPOHODA</h2>
+                <div class="row mt16 o_settings_container" name="default_mpohoda_setting_container">
+                    <div class="col-12 col-lg-6 o_setting_box" id="mpohoda_vat_payer" title="VAT settings">
+                        <div class="o_setting_left_pane">
+                            <field name="is_vat_payer"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="is_vat_payer"/>
+                            <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.group_multi_company" role="img"/>
+                            <div class="text-muted">
+                                Allow to configure the vat payer
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box" id="mpohoda_store_document" title="Store Documents">
+                        <div class="o_setting_left_pane">
+                            <field name="store_document"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="store_document"/>
+                            <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.group_multi_company" role="img"/>
+                            <div class="text-muted">
+                                Choose if PDF documents will be stored at server
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box" id="mpohoda_details" title="Server Details">
+                        <div class="o_setting_left_pane"/>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">mServer</span>
+                            <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.group_multi_company" role="img"/>
+                            <div class="text-muted">
+                                mServer Details
+                            </div>
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label string="Host" for="mserver_host" class="col-lg-3 o_light_label"/>
+                                    <field name="mserver_host"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label string="Port" for="mserver_port" class="col-lg-3 o_light_label"/>
+                                    <field name="mserver_port"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label string="User" for="mserver_user" class="col-lg-3 o_light_label"/>
+                                    <field name="mserver_user"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label string="Password" for="mserver_password" class="col-lg-3 o_light_label"/>
+                                    <field name="mserver_password" password="True"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label string="Document Path" for="mserver_document_path" class="col-lg-3 o_light_label"/>
+                                    <field name="mserver_document_path"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box" id="mpohoda_types" title="Types">
+                        <div class="o_setting_left_pane"/>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Payment and Invoice Types</span>
+                            <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.group_multi_company" role="img"/>
+                            <div class="text-muted">
+                                Map payment and invoice types from mpohoda
+                            </div>
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label string="Payment Types" for="mpohoda_payment_type_ids" class="col-lg-3 o_light_label"/>
+                                    <field name="mpohoda_payment_type_ids">
+                                        <tree editable="bottom">
+                                            <field name="mpohoda_journal"/>
+                                            <field name="journal_id"/>
+                                            <field name="company_id" invisible="0"/>
+                                        </tree>
+                                    </field>
+                                </div>
+                                <div class="row mt16">
+                                    <label string="Invoice Types" for="mpohoda_invoice_type_ids" class="col-lg-3 o_light_label"/>
+                                    <field name="mpohoda_invoice_type_ids">                                            
+                                        <tree editable="bottom">
+                                            <field name="mpohoda_journal"/>
+                                            <field name="journal_id"/>
+                                            <field name="company_id" invisible="1"/>
+                                        </tree>
+                                    </field>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box" id="mpohoda_connect" title="Connect">
+                        <div class="o_setting_left_pane"/>
+                        <div class="o_setting_right_pane">
+                            <button name="connect_mpohoda" string="Connect" type="object" class="oe_highlight"/>
+                            <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.group_multi_company" role="img"/>
+                            <div class="text-muted">
+                                Connect Mpohoda
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
