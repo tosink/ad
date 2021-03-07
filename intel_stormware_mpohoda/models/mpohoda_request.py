@@ -90,7 +90,7 @@ class MpohodaAPI():
         _logger.info(payload)
         _logger.info(response)
         _logger.info(response.text)
-        tree = ET.fromstring(response.text)
+        tree = ET.ElementTree(ET.fromstring(response.text))
         root = tree.getroot()
         _logger.info([elem.tag for elem in root.iter()]
 )
