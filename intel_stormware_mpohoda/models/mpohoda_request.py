@@ -62,7 +62,7 @@ class MpohodaAPI():
         self.authorization_code = ''
         if self.user and self.password:
             code = self.user+':'+self.password
-            self.authorization_code =  base64.b64encode(code.encode('utf-8'))
+            self.authorization_code =  base64.b64encode(code.encode('utf-8')) 
     
 
     def get_payment_types(self):
