@@ -55,7 +55,7 @@ class MpohodaAPI():
     
     def __init__(self, host, port, user, password, registry):
         self.port = port #666
-        self.host = host + ':' + self.port + '/xml'
+        self.host = host + ':' + str(self.port) + '/xml'
         self.user = user #Admin
         self.password = password #Admin:1Juzepe1
         self.registry = registry
