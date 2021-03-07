@@ -52,7 +52,11 @@ class ResConfigSettings(models.TransientModel):
     def connect_mpohoda(self):
         mpohoda = MpohodaAPI(self.mserver_host, self.mserver_port, self.mserver_user, \
             self.mserver_password, self.company_id.company_registry)
-        mpohoda.get_payment_types() 
+        types = mpohoda.get_payment_types()
+        if types:
+            for t in types:
+                if not self.env['mpohoda.payment.type'].sudo().search([('mpohoda_journal','=',t)], limit=1):
+                    self.env['mpohoda.payment.type'].sudo().create({'mpohoda_journal':t})
         return True
 
     
