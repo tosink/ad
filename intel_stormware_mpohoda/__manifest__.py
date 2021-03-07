@@ -6,7 +6,7 @@
 {
     "name": "Stormware POHODA",
     "summary": "Stormware POHODA",
-    "version": "14.0.0.0.1",
+    "version": "14.0.0.0.2",
     "author": "Intelligenti.io",
     "license": "AGPL-3",
     "maintainer": "Intelligenti.io",

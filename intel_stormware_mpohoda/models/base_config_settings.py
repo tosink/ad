@@ -60,9 +60,9 @@ class ResConfigSettings(models.TransientModel):
         
         types = mpohoda.get_invoice_types()
         if types:
-            for t in types:
-                if not self.env['mpohoda.invoice.type'].sudo().search([('mpohoda_journal','=',t)], limit=1):
-                    self.env['mpohoda.invoice.type'].sudo().create({'mpohoda_journal':t})
+            for code, name in types:
+                if not self.env['mpohoda.invoice.type'].sudo().search([('mpohoda_code','=',code)], limit=1):
+                    self.env['mpohoda.invoice.type'].sudo().create({'mpohoda_code':code, 'mpohoda_journal':name})
         return True
 
     

@@ -34,6 +34,10 @@ class MpohodaInvoiceType(models.Model):
         string='Mpohoda Journal', 
         readonly=True)
     
+    mpohoda_code = fields.Char(
+        string='Mpohoda Code',
+        readonly=True)
+    
     company_id = fields.Many2one(
         comodel_name='res.company', 
         string='Company', 
