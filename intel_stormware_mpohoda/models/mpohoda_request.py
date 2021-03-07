@@ -54,8 +54,9 @@ def load_string(string_dump):
 class MpohodaAPI():
     
     def __init__(self, host, port, user, password, registry):
+        self.host = host
         self.port = port #666
-        self.host = host + ':' + str(self.port) + '/xml'
+        self.url = self.host + ':' + str(self.port) + '/xml'
         self.user = user #Admin
         self.password = password #Admin:1Juzepe1
         self.registry = registry
@@ -84,7 +85,7 @@ class MpohodaAPI():
             'Content-Type': 'text/plain',
         }
 
-        response = requests.post(self.host, data=payload.encode('Windows-1250'), headers=headers) 
+        response = requests.post(self.url, data=payload.encode('Windows-1250'), headers=headers) 
         _logger.info(response)
         
 
