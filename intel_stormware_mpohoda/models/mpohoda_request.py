@@ -85,16 +85,21 @@ class MpohodaAPI():
             'Content-Type': 'text/plain',
         }
 
-        response = requests.post(self.url, data=payload.encode('Windows-1250'), headers=headers) 
-        _logger.info(self.authorization_code)
-        _logger.info(payload)
-        _logger.info(response)
-        _logger.info(response.text)
-        tree = ET.ElementTree(ET.fromstring(response.text))
-        root = tree.getroot()
-        for bank_id in root.findall('ids'):
-            _logger.info(bank_id)
-            _logger.info(bank_id.text)
+        response = requests.post(self.url, data=payload.encode('Windows-1250'), headers=headers)
+        if response.status == 200:
+            bank_ids = []
+            _logger.info(self.authorization_code)
+            _logger.info(payload)
+            _logger.info(response)
+            _logger.info(response.text)
+            tree = ET.ElementTree(ET.fromstring(response.text))
+            root = tree.getroot()
+            for bank_id in root.findall('bka:ids'):
+                _logger.info(bank_id)
+                _logger.info(bank_id.text)
+                bank_ids.append(bank_id)
+            return bank_ids
+        return False
 
 
 
