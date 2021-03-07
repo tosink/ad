@@ -1,4 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_mpohoda_payment_type,access_mpohoda_payment_type,mpohoda_payment_type,,1,1,1,1
-access_mpohoda_invoice_type,access_mpohoda_invoice_type,mpohoda_invoice_type,,1,1,1,1
+access_mpohoda_payment_type,access_mpohoda_payment_type,model_mpohoda_payment_type,,1,1,1,1
+access_mpohoda_invoice_type,access_mpohoda_invoice_type,model_mpohoda_invoice_type,,1,1,1,1
 
