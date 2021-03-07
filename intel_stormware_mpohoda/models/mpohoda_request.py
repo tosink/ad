@@ -59,7 +59,7 @@ class MpohodaAPI():
         self.url = self.host + ':' + str(self.port) + '/xml'
         self.user = user #Admin
         self.password = password #Admin:1Juzepe1
-        self.registry = registry
+        self.registry = registry #05744610
         self.authorization_code = ''
         if self.user and self.password:
             code = self.user+':'+self.password
@@ -68,7 +68,7 @@ class MpohodaAPI():
 
     def get_payment_types(self):
         payload = """<?xml version="1.0" encoding="Windows-1250"?>
-                        <dat:dataPack version="2.0" id="Ex008" ico="dddd" application="StwTest" note="Žádost o seznamy" 
+                        <dat:dataPack version="2.0" id="Ex008" ico="%s" application="StwTest" note="Žádost o seznamy" 
                         xmlns:dat="http://www.stormware.cz/schema/version_2/data.xsd" 
                         xmlns:lst="http://www.stormware.cz/schema/version_2/list.xsd">
 
@@ -78,7 +78,7 @@ class MpohodaAPI():
                         </lst:listBankAccountRequest>
                             </dat:dataPackItem>
 
-                    </dat:dataPack>"""
+                    </dat:dataPack>"""%self.registry
         headers = {
             'Stw-Authorization': 'Basic {}'.format(self.authorization_code),
             'Authorization': 'Basic {}'.format(self.authorization_code),
