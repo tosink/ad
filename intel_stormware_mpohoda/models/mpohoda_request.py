@@ -61,7 +61,8 @@ class MpohodaAPI():
         self.registry = registry
         self.authorization_code = ''
         if self.user and self.password:
-            self.authorization_code =  base64.b64encode(self.user+':'+self.password)
+            code = self.user+':'+self.password
+            self.authorization_code =  base64.b64encode(code.encode()).decode()
     
 
     def get_payment_types(self):
