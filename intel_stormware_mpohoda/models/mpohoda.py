@@ -4,6 +4,7 @@ from odoo import api, fields, models, _, SUPERUSER_ID
 
 class MpohodaPaymentType(models.Model):
     _name = 'mpohoda.payment.type'
+    _description = 'Mpohoda Payment Type'
 
     journal_id = fields.Many2one(
         comodel_name='account.journal', 
@@ -17,12 +18,13 @@ class MpohodaPaymentType(models.Model):
         comodel_name='res.company', 
         string='Company', 
         required=True,
-        default=lambda self: self.env.company)
+        default=lambda self: self.env.user.company_id)
 
 
 
 class MpohodaInvoiceType(models.Model):
     _name = 'mpohoda.invoice.type'
+    _description = 'Mpohoda Invoice Type'
 
     journal_id = fields.Many2one(
         comodel_name='account.journal', 
@@ -36,7 +38,7 @@ class MpohodaInvoiceType(models.Model):
         comodel_name='res.company', 
         string='Company', 
         required=True,
-        default=lambda self: self.env.company)
+        default=lambda self: self.env.user.company_id)
 
 
 
