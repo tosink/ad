@@ -51,7 +51,7 @@ class ResConfigSettings(models.TransientModel):
     
     def connect_mpohoda(self):
         mpohoda = MpohodaAPI(self.mserver_host, self.mserver_port, self.mserver_user, \
-            self.mserver_password, self.company_id.registry)
+            self.mserver_password, self.company_id.company_registry)
         mpohoda.get_payment_types() 
         return True
 
