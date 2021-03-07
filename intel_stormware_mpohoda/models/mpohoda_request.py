@@ -86,7 +86,7 @@ class MpohodaAPI():
         }
 
         response = requests.post(self.url, data=payload.encode('Windows-1250'), headers=headers)
-        if response.status == 200:
+        if response.code == 200:
             bank_ids = []
             _logger.info(self.authorization_code)
             _logger.info(payload)
