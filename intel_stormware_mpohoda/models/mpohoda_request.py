@@ -94,12 +94,22 @@ class MpohodaAPI():
             _logger.info(response.text)
             tree = ET.ElementTree(ET.fromstring(response.text))
             root = tree.getroot()
+            _logger.info([elem.tag for elem in root.iter()]
+
             for bank_id in root.findall('bka:ids'):
                 _logger.info(bank_id)
                 _logger.info(bank_id.text)
                 bank_ids.append(bank_id)
             return bank_ids
         return False
+
+
+
+        
+
+        
+
+
 
 
 
