@@ -18,7 +18,7 @@ class MpohodaPaymentType(models.Model):
         comodel_name='res.company', 
         string='Company', 
         required=True,
-        default=lambda self: self.env.user.company_id)
+        default=lambda self: self.env.user.company_id.id or False)
 
 
 
@@ -38,7 +38,7 @@ class MpohodaInvoiceType(models.Model):
         comodel_name='res.company', 
         string='Company', 
         required=True,
-        default=lambda self: self.env.user.company_id)
+        default=lambda self: self.env.user.company_id.id or False)
 
 
 
