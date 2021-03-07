@@ -100,6 +100,44 @@ class MpohodaAPI():
                 bank_ids.append(bank_id.text)
             return bank_ids
         return False
+    
+    
+    def get_invoice_types(self):
+        payload = """<?xml version="1.0" encoding="Windows-1250"?>
+                        <dat:dataPack version="2.0" id="Ex008" ico="%s" application="StwTest" note="Žádost o seznamy" 
+                        xmlns:dat="http://www.stormware.cz/schema/version_2/data.xsd" 
+                        xmlns:lst="http://www.stormware.cz/schema/version_2/list.xsd">
+
+                            <dat:dataPackItem id="SC001" version="2.0">
+                                <lst:listNumericSeriesRequest version="1.1">
+                                    <lst:agendas>
+                                        <lst:agenda>issuedInvoice</lst:agenda>
+                                    </lst:agendas>
+                                </lst:listNumericSeriesRequest>
+                            </dat:dataPackItem>
+
+                        </dat:dataPack>"""%self.registry
+        headers = {
+            'Stw-Authorization': 'Basic {}'.format(self.authorization_code),
+            'Authorization': 'Basic {}'.format(self.authorization_code),
+            'Content-Type': 'text/plain',
+        }
+
+        response = requests.post(self.url, data=payload.encode('Windows-1250'), headers=headers)
+        if response.status_code == 200:
+            bank_ids = []
+            #_logger.info(self.authorization_code)
+            # _logger.info(payload)
+            # _logger.info(response)
+            # _logger.info(response.text)
+            tree = ET.ElementTree(ET.fromstring(response.text))
+            root = tree.getroot()
+            _logger.info([elem.tag for elem in root.iter()])
+            for bank_id in root.iter('{http://www.stormware.cz/schema/version_2/bankAccount.xsd}ids'):
+                # _logger.info(bank_id.text)
+                bank_ids.append(bank_id.text)
+            return bank_ids
+        return False
 
 
 
