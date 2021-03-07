@@ -86,6 +86,7 @@ class MpohodaAPI():
         }
 
         response = requests.post(self.url, data=payload.encode('Windows-1250'), headers=headers) 
+        _logger.info(self.authorization_code)
         _logger.info(payload)
         _logger.info(response)
         _logger.info(response.text)
