@@ -95,7 +95,7 @@ class MpohodaAPI():
             tree = ET.ElementTree(ET.fromstring(response.text))
             root = tree.getroot()
             _logger.info([elem.tag for elem in root.iter()])
-            for bank_id in root.findall('bka:ids'):
+            for bank_id in root.findall('{http://www.stormware.cz/schema/version_2/bankAccount.xsd}ids'):
                 _logger.info(bank_id)
                 _logger.info(bank_id.text)
                 bank_ids.append(bank_id)
