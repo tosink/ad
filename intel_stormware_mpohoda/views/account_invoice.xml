@@ -9,7 +9,7 @@
                 <page string="Mpohoda" name="mpohoda">
                     <group>
                         <group>
-                            <field name="mpohoda_acquirer_id"/>
+                            <field name="mpohoda_acquirer_id" state="draft"/>
                         </group>
                         <group>
                             <field name="mpohoda_status" readonly="True"/>
