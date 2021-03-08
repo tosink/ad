@@ -2,7 +2,7 @@
 from odoo import api, fields, models, _, SUPERUSER_ID
 
 
-class AccountMove(models.Model):
+class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
     mpohoda_status = fields.Selection(
