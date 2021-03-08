@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models, _, SUPERUSER_ID
-from odoo.exceptions import Warning
+from odoo.exceptions import ValidationError
 
 
 class MpohodaPaymentType(models.Model):
@@ -24,9 +24,10 @@ class MpohodaPaymentType(models.Model):
     
     @api.constrains('acquirer_id')
     def _check_acquirer(self):
-        if self.acquirer_id:
-            if self.search([('acquirer_id','=',self.acquirer_id.id)]):
-                raise Warning('Payment acquirer must be unique!')
+        for t in self:
+            if t.acquirer_id:
+                if self.search([('acquirer_id','=',t.acquirer_id.id)]):
+                    raise ValidationError(_('Payment acquirer must be unique!'))
 
 
 
@@ -54,9 +55,10 @@ class MpohodaInvoiceType(models.Model):
 
     @api.constrains('journal_id')
     def _check_journal(self):
-        if self.journal_id:
-            if self.search([('journal_id','=',self.journal_id.id)]):
-                raise Warning('Journal must be unique!')
+        for t in self:
+            if t.journal_id:
+                if self.search([('journal_id','=',t.journal_id.id)]):
+                    raise ValidationError(_('Journal must be unique!'))
 
 
 
