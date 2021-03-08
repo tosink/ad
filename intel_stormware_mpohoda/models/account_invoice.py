@@ -28,14 +28,14 @@ class AccountInvoice(models.Model):
         mpohoda = MpohodaAPI(company.mserver_host, company.mserver_port, company.mserver_user, \
             company.mserver_password, company.company_registry)
         for invoice in self:
-            try:
-                _logger.info('Sending invoice %s to MPOHODA'%invoice.name)
-                invoice.generate_invoice()
-                invoice.mpohoda_status = 'sent'
-                _logger.info('Generated invoice %s from MPOHODA'%invoice.name)
-            except Exception as e:
-                invoice.mpohoda_status = 'error'
-                _logger.info('Error for invoice %s from MPOHODA: %s'%(invoice.name,e))
+            #try:
+            _logger.info('Sending invoice %s to MPOHODA'%invoice.name)
+            invoice.generate_invoice()
+            invoice.mpohoda_status = 'sent'
+            _logger.info('Generated invoice %s from MPOHODA'%invoice.name)
+            # except Exception as e:
+            #     invoice.mpohoda_status = 'error'
+            #     _logger.info('Error for invoice %s from MPOHODA: %s'%(invoice.name,e))
 
         return res
     
