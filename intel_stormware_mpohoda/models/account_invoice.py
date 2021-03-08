@@ -136,7 +136,7 @@ class AccountInvoice(models.Model):
                     
                         </inv:invoice>
                         </dat:dataPackItem>
-                        </dat:dataPack> """%(self.registry, self.date_invoice, self.date_invoice, self.date_invoice,\
+                        </dat:dataPack> """%(self.company_id.company_registry, self.date_invoice, self.date_invoice, self.date_invoice,\
                                             self.date_due, invoice_type.mpohoda_code, self.partner_id.company_id.name, self.partner_id.city,\
                                             self.partner_id.street, self.partner_id.zip, self.partner_id.company_id.company_registry, \
                                             self.partner_id.vat, self.partner_shipping_id.company_id.name, self.partner_shipping_id.city, self.partner_shipping_id.street, \
