@@ -241,11 +241,11 @@ class MpohodaAPI():
                         </dat:dataPackItem>
                         </dat:dataPack> """%(self.registry, invoice.date_invoice, invoice.date_invoice, invoice.date_invoice,\
                                             invoice.date_due, invoice_type.mpohoda_code, invoice.partner_id.company_id.name, invoice.partner_id.city,\
-                                            invoice.partner_id.street, invoice.partner_id.zip, invoice.partner_id.company_id.company_registry \
+                                            invoice.partner_id.street, invoice.partner_id.zip, invoice.partner_id.company_id.company_registry, \
                                             invoice.partner_id.vat, invoice.partner_shipping_id.company_id.name, invoice.partner_shipping_id.city, invoice.partner_shipping_id.street, \
                                             invoice.partner_shipping_id.zip, invoice.company_id.name, invoice.company_id.city, invoice.company_id.street, invoice.company_id.zip,\
                                             invoice.company_id.company_registry, invoice.company_id.vat, invoice.origin, confirmation_date, payload_item, \
-                                            invoice.company_id.mserver_document_path+'\%s.pdf'%(invoice.name))
+                                            invoice.company_id.mserver_document_path+"\%s.pdf"%(invoice.name))
         return True
 
 
