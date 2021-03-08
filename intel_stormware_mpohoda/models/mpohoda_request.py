@@ -152,9 +152,10 @@ class MpohodaAPI():
             is_vat_payer = 'true'
 
         payload_item = ''
+        mpohoda_vat = 'none'
         for line in invoice.invoice_line_ids:
             if line.invoice_line_tax_ids:
-            mpohoda_vat = line.invoice_line_tax_ids[0].mpohoda_vat
+                mpohoda_vat = line.invoice_line_tax_ids[0].mpohoda_vat
             payload_item += """<inv:invoiceItem>
                             <inv:id>%s</inv:id>
                             <inv:text>%s</inv:text>
