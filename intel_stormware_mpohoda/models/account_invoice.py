@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models, _, SUPERUSER_ID
-
+from odoo.addons.intel_stormware_mpohoda.models.mpohoda_request import MpohodaAPI
+import logging
+_logger = logging.getLogger(__name__)
 
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
@@ -22,8 +24,13 @@ class AccountInvoice(models.Model):
     @api.multi
     def invoice_validate(self):
         res = super(AccountInvoice, self).invoice_validate()
+        company = self.company_id
+        mpohoda = MpohodaAPI(company.mserver_host, company.mserver_port, company.mserver_user, \
+            company.mserver_password, company.company_registry)
         for invoice in self:
-            invoice.send_to_mpohoda()
+            _logger.info('Sending invoice %s to MPOHODA'%invoice.name)
+            mpohoda.generate_invoice(invoice)
+            _logger.info('Generated invoice %s from MPOHODA'%invoice.name)
         return res
 
 
