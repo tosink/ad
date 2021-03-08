@@ -6,8 +6,9 @@ class AccountTax(models.Model):
     _inherit = 'account.tax'
 
     mpohoda_vat = fields.Selection(
-        [('none','None'),('high','high'),('low','Low'),('third','Third'),
-        ('historyHigh','History High'),('historyLow','History Low'),('historyThird','History Third')],
+        [('none','None'),('high','High'),('low','Low'),('third','Third'),
+        ('historyHigh','History High'),('historyLow','History Low'),
+        ('historyThird','History Third')],
         string='Mpohoda Rate Vat', 
         default='high')
 
