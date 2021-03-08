@@ -135,7 +135,7 @@ class MpohodaAPI():
             # _logger.info([elem.tag for elem in root.iter()])
             for series in root.iter('{http://www.stormware.cz/schema/version_2/list.xsd}itemNumericSeries'):
                 # _logger.info(series.text)
-                invoice_ids.append((series.get('id'), series.get('name'))
+                invoice_ids.append((series.get('id'), series.get('name')))
             return invoice_ids
         return False
 
