@@ -132,9 +132,9 @@ class MpohodaAPI():
             _logger.info(response.text)
             tree = ET.ElementTree(ET.fromstring(response.text))
             root = tree.getroot()
-            _logger.info([elem.tag for elem in root.iter()])
+            # _logger.info([elem.tag for elem in root.iter()])
             for series in root.iter('{http://www.stormware.cz/schema/version_2/list.xsd}itemNumericSeries'):
-                _logger.info(series.text)
+                # _logger.info(series.text)
                 invoice_ids.append((series.get('id'), series.get('name')))
             return invoice_ids
         return False
