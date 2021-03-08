@@ -15,6 +15,10 @@ class MpohodaPaymentType(models.Model):
         string='Mpohoda Payment Method', 
         readonly=True)
     
+    mpohoda_code = fields.Char(
+        string='Mpohoda Code',
+        readonly=True)
+    
     name = fields.Char(
         related='mpohoda_acquirer', 
         store=True)

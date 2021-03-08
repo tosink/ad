@@ -54,9 +54,9 @@ class ResConfigSettings(models.TransientModel):
             self.mserver_password, self.company_id.company_registry)
         types = mpohoda.get_payment_types()
         if types:
-            for t in types:
-                if not self.env['mpohoda.payment.type'].sudo().search([('mpohoda_acquirer','=',t)], limit=1):
-                    self.env['mpohoda.payment.type'].sudo().create({'mpohoda_acquirer':t})
+            for code, name in types:
+                if not self.env['mpohoda.payment.type'].sudo().search([('mpohoda_code','=',code)], limit=1):
+                    self.env['mpohoda.payment.type'].sudo().create({'mpohoda_code':code, 'mpohoda_acquirer':name})
         
         types = mpohoda.get_invoice_types()
         if types:
