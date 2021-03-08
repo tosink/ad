@@ -52,11 +52,11 @@ class MpohodaInvoiceType(models.Model):
         required=False,
         default=lambda self: self.env['res.company']._company_default_get('mpohoda.invoice.type'))
 
-        @api.constrains('journal_id')
-        def _check_journal(self):
-            if self.journal_id:
-                if self.search([('journal_id','=',self.journal_id.id)]):
-                    raise Warning('Journal must be unique!')
+    @api.constrains('journal_id')
+    def _check_journal(self):
+        if self.journal_id:
+            if self.search([('journal_id','=',self.journal_id.id)]):
+                raise Warning('Journal must be unique!')
 
 
 
