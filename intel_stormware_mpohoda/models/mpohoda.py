@@ -26,7 +26,7 @@ class MpohodaPaymentType(models.Model):
     def _check_acquirer(self):
         for t in self:
             if t.acquirer_id:
-                if self.search([('acquirer_id','=',t.acquirer_id.id)]):
+                if self.search_count([('acquirer_id','=',t.acquirer_id.id)]) > 1:
                     raise ValidationError(_('Payment acquirer must be unique!'))
 
 
@@ -57,7 +57,7 @@ class MpohodaInvoiceType(models.Model):
     def _check_journal(self):
         for t in self:
             if t.journal_id:
-                if self.search([('journal_id','=',t.journal_id.id)]):
+                if self.search_count([('journal_id','=',t.journal_id.id)]) > 1:
                     raise ValidationError(_('Journal must be unique!'))
 
 
