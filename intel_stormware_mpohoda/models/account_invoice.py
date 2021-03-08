@@ -153,7 +153,7 @@ class AccountInvoice(models.Model):
             'Authorization': 'Basic {}'.format(mpohoda.authorization_code),
             'Content-Type': 'text/plain',
         }
-
+        _logger.info('Payload %s'%payload)
         response = requests.post(mpohoda.url, data=payload.encode('Windows-1250'), headers=headers)
         _logger.info(response.text)
         # if response.status_code == 200:
