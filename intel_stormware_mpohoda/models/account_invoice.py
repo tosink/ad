@@ -45,7 +45,7 @@ class AccountInvoice(models.Model):
         if self.origin:
             sale = self.env['sale.order'].sudo().search([('name','=',self.origin)],limit=1)
             if sale.confirmation_date:
-                confirmation_date = sale.confirmation_date.split(' ')[0]
+                confirmation_date = str(sale.confirmation_date).split(' ')[0]
         is_vat_payer = 'false'
         if self.company_id.is_vat_payer:
             is_vat_payer = 'true'
