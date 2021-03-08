@@ -6,11 +6,11 @@ class MpohodaPaymentType(models.Model):
     _name = 'mpohoda.payment.type'
     _description = 'Mpohoda Payment Type'
 
-    journal_id = fields.Many2one(
-        comodel_name='account.journal', 
+    acquirer_id = fields.Many2one(
+        comodel_name='payment.acquirer', 
         string='Odoo Payment Method')
     
-    mpohoda_journal = fields.Char(
+    mpohoda_acquirer = fields.Char(
         string='Mpohoda Payment Method', 
         readonly=True)
     
