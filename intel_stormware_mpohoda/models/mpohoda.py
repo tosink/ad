@@ -15,6 +15,10 @@ class MpohodaPaymentType(models.Model):
         string='Mpohoda Payment Method', 
         readonly=True)
     
+    name = fields.Char(
+        related='mpohoda_acquirer', 
+        store=True)
+    
     company_id = fields.Many2one(
         comodel_name='res.company', 
         string='Company', 

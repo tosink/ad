@@ -9,7 +9,7 @@
                 <page string="Mpohoda" name="mpohoda">
                     <group>
                         <group>
-                            <field name="mpohoda_acquirer_id" state="draft"/>
+                            <field name="mpohoda_acquirer_id" attrs="{'readonly':[('state','!=','draft')]}" create="false" edit="false"/>
                         </group>
                         <group>
                             <field name="mpohoda_status" readonly="True"/>

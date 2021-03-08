@@ -13,9 +13,9 @@ class AccountInvoice(models.Model):
         required=True)
     
     mpohoda_acquirer_id = fields.Many2one(
-        comodel_name='payment.acquirer', 
-        string='Mpohoda Payment Method',
-        default=lambda self: self.env['payment.acquirer'].search([('provider','=','transfer')],limit=1),
+        comodel_name='mpohoda.payment.type', 
+        string='Mpohoda Payment Type',
+        default=lambda self: self.env['mpohoda.payment.type'].search([],limit=1),
         required=True)
     
 
