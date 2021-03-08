@@ -138,6 +138,11 @@ class MpohodaAPI():
                 invoice_ids.append((series.get('id'), series.get('name')))
             return invoice_ids
         return False
+    
+
+    def generate_invoice(self):
+        
+        return True
 
 
 

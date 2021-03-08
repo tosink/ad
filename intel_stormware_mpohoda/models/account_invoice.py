@@ -19,6 +19,16 @@ class AccountInvoice(models.Model):
         required=False)
     
 
+    @api.multi
+    def invoice_validate(self):
+        res = super(AccountInvoice, self).invoice_validate()
+        for invoice in self:
+            invoice.send_to_mpohoda()
+        return res
+
+
+    
+
     
 
     

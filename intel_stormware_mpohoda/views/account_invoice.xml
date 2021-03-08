@@ -9,7 +9,27 @@
                 <page string="Mpohoda" name="mpohoda">
                     <group>
                         <group>
-                            <field name="mpohoda_type_id" attrs="{'readonly':[('state','!=','draft')]}" create="false" edit="false"/>
+                            <field string="Payment Type" name="mpohoda_type_id" attrs="{'readonly':[('state','!=','draft')]}" create="false" edit="false"/>
+                        </group>
+                        <group>
+                            <field name="mpohoda_status" readonly="True"/>
+                        </group>
+                    </group>
+                </page>
+           </page>
+        </field>
+    </record>
+
+    <record id="invoice_supplier_form" model="ir.ui.view">
+        <field name="name">mpohoda.account.invoice.supplier.form</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_supplier_form"/>
+        <field name="arch" type="xml">
+           <page name="other_info" position="after">
+                <page string="Mpohoda" name="mpohoda">
+                    <group>
+                        <group>
+                            <field string="Payment Type" name="mpohoda_type_id" attrs="{'readonly':[('state','!=','draft')]}" create="false" edit="false"/>
                         </group>
                         <group>
                             <field name="mpohoda_status" readonly="True"/>
@@ -20,3 +40,6 @@
         </field>
     </record>
 </odoo>
+
+
+
