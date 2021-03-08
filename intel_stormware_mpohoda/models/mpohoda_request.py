@@ -97,7 +97,7 @@ class MpohodaAPI():
             # _logger.info([elem.tag for elem in root.iter()])
             for bank_id in root.iter('{http://www.stormware.cz/schema/version_2/bankAccount.xsd}ids'):
                 # _logger.info(bank_id.text)
-                bank_ids.append(bank_id.text.encode('Windows-1250'))
+                bank_ids.append(bank_id.text)
             return bank_ids
         return False
     
@@ -135,7 +135,7 @@ class MpohodaAPI():
             # _logger.info([elem.tag for elem in root.iter()])
             for series in root.iter('{http://www.stormware.cz/schema/version_2/list.xsd}itemNumericSeries'):
                 # _logger.info(series.text)
-                invoice_ids.append((series.get('id'), series.get('name').encode('Windows-1250')))
+                invoice_ids.append((series.get('id'), series.get('name'))
             return invoice_ids
         return False
 
