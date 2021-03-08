@@ -19,6 +19,11 @@ class MpohodaPaymentType(models.Model):
         string='Company', 
         required=False,
         default=lambda self: self.env['res.company']._company_default_get('mpohoda.payment.type'))
+    
+    
+    _sql_constraints = [
+        ('unique_printnode_id_key', 'unique(printnode_id)', 'Computer already available!'),
+    ]
 
 
 
