@@ -2,6 +2,7 @@
 from odoo import api, fields, models, _, SUPERUSER_ID
 from odoo.addons.intel_stormware_mpohoda.models.mpohoda_request import MpohodaAPI
 import logging
+import requests
 _logger = logging.getLogger(__name__)
 
 class AccountInvoice(models.Model):
@@ -24,9 +25,6 @@ class AccountInvoice(models.Model):
     @api.multi
     def invoice_validate(self):
         res = super(AccountInvoice, self).invoice_validate()
-        company = self.company_id
-        mpohoda = MpohodaAPI(company.mserver_host, company.mserver_port, company.mserver_user, \
-            company.mserver_password, company.company_registry)
         for invoice in self:
             #try:
             _logger.info('Sending invoice %s to MPOHODA'%invoice.name)
@@ -145,6 +143,21 @@ class AccountInvoice(models.Model):
                                             self.partner_shipping_id.zip, self.company_id.name, self.company_id.city, self.company_id.street, self.company_id.zip,\
                                             self.company_id.company_registry, self.company_id.vat, self.origin, confirmation_date, payload_item, \
                                             self.company_id.mserver_document_path+"\%s.pdf"%(self.name))
+        
+        company = self.company_id
+        mpohoda = MpohodaAPI(company.mserver_host, company.mserver_port, company.mserver_user, \
+            company.mserver_password, company.company_registry)
+
+        headers = {
+            'Stw-Authorization': 'Basic {}'.format(mpohoda.authorization_code),
+            'Authorization': 'Basic {}'.format(mpohoda.authorization_code),
+            'Content-Type': 'text/plain',
+        }
+
+        response = requests.post(mpohoda.url, data=payload.encode('Windows-1250'), headers=headers)
+        _logger.info(response.text)
+        # if response.status_code == 200:
+        #     _logger.info(response.text)
         return True
 
 
