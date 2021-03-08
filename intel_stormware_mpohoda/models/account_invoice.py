@@ -68,7 +68,7 @@ class AccountInvoice(models.Model):
                             <typ:unitPrice>%s</typ:unitPrice>
                             </inv:homeCurrency>
                             <inv:PDP>false</inv:PDP>
-                            </inv:invoiceItem>"""%(line.id, line.name,line.quantity, line.uom_id.name, is_vat_payer, mpohoda_vat, line.unit_price)
+                            </inv:invoiceItem>"""%(line.id, line.name,line.quantity, line.uom_id.name, is_vat_payer, mpohoda_vat, line.price_unit)
             
         payload = """<?xml version="1.0" encoding="Windows-1250"?>
                         <dat:dataPack id="fa001" ico="%s" application="StwTest" version = "2.0" note="Import FA"        
