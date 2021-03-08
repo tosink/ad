@@ -110,13 +110,13 @@ class MpohodaAPI():
 
                             <dat:dataPackItem id="SC001" version="2.0">
                                 <lst:listNumericSeriesRequest version="1.1">
-                                    <lst:agendas>
-                                        <lst:agenda>issuedInvoice</lst:agenda>
-                                    </lst:agendas>
                                 </lst:listNumericSeriesRequest>
                             </dat:dataPackItem>
 
                         </dat:dataPack>"""%self.registry
+                        # <lst:agendas>
+                        #     <lst:agenda>issuedInvoice</lst:agenda>
+                        # </lst:agendas>
         headers = {
             'Stw-Authorization': 'Basic {}'.format(self.authorization_code),
             'Authorization': 'Basic {}'.format(self.authorization_code),
