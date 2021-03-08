@@ -15,7 +15,7 @@
     "depends": ["sale"],
     "data": [
         "views/base_config_view.xml",
-        # "views/account_tax.xml",
+        "views/account_tax.xml",
         "security/ir.model.access.csv",
     ],
     "auto_install": False,
