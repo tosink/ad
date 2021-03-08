@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="invoice_form" model="ir.ui.view">
+        <field name="name">mpohoda.account.invoice.form</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_form"/>
+        <field name="arch" type="xml">
+           <page name="other_info" position="after">
+                <page string="Mpohoda" name="mpohoda">
+                    <group>
+                        <group>
+                            <field name="mpohoda_acquirer_id"/>
+                        </group>
+                        <group>
+                            <field name="mpohoda_status" readonly="True"/>
+                        </group>
+                    </group>
+                </page>
+           </page>
+        </field>
+    </record>
+</odoo>

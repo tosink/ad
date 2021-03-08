@@ -9,5 +9,16 @@ class AccountInvoice(models.Model):
         [('ready','Ready'),('sent','Sent'),('error','Error')],
         string='Mpohoda Status',
         default='ready',
+        track_visibility='onchange',
         required=True)
+    
+    mpohoda_acquirer_id = fields.Many2one(
+        comodel_name='payment.acquirer', 
+        string='Mpohoda Payment Method',
+        default=lambda self: self.env['payment.acquirer'].search([('provider','=','transfer')],limit=1)
+        required=True)
+    
+
+    
+
     

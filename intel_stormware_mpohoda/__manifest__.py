@@ -6,7 +6,7 @@
 {
     "name": "Stormware POHODA",
     "summary": "Stormware POHODA",
-    "version": "14.0.0.0.3",
+    "version": "14.0.0.0.4",
     "author": "Intelligenti.io",
     "license": "AGPL-3",
     "maintainer": "Intelligenti.io",
@@ -16,6 +16,7 @@
     "data": [
         "views/base_config_view.xml",
         "views/account_tax.xml",
+        "views/account_invoice.xml",
         "security/ir.model.access.csv",
     ],
     "auto_install": False,
