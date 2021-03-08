@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models, _, SUPERUSER_ID
+from odoo.exceptions import Warning
 
 
 class MpohodaPaymentType(models.Model):
@@ -21,9 +22,11 @@ class MpohodaPaymentType(models.Model):
         default=lambda self: self.env['res.company']._company_default_get('mpohoda.payment.type'))
     
     
-    _sql_constraints = [
-        ('unique_printnode_id_key', 'unique(printnode_id)', 'Computer already available!'),
-    ]
+    @api.constrains('acquirer_id')
+    def _check_acquirer(self):
+        if self.acquirer_id:
+            if self.search([('acquirer_id','=',self.acquirer_id.id)]):
+                raise Warning('Payment acquirer must be unique!')
 
 
 
@@ -48,6 +51,14 @@ class MpohodaInvoiceType(models.Model):
         string='Company', 
         required=False,
         default=lambda self: self.env['res.company']._company_default_get('mpohoda.invoice.type'))
+
+        @api.constrains('journal_id')
+        def _check_journal(self):
+            if self.journal_id:
+                if self.search([('journal_id','=',self.journal_id.id)]):
+                    raise Warning('Journal must be unique!')
+
+
 
 
 
