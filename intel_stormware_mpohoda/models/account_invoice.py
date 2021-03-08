@@ -16,7 +16,7 @@ class AccountInvoice(models.Model):
         comodel_name='mpohoda.payment.type', 
         string='Mpohoda Payment Type',
         default=lambda self: self.env['mpohoda.payment.type'].search([],limit=1),
-        required=True)
+        required=False)
     
 
     
