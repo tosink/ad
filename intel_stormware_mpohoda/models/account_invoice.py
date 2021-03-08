@@ -12,7 +12,7 @@ class AccountInvoice(models.Model):
         track_visibility='onchange',
         required=True)
     
-    mpohoda_acquirer_id = fields.Many2one(
+    mpohoda_type_id = fields.Many2one(
         comodel_name='mpohoda.payment.type', 
         string='Mpohoda Payment Type',
         default=lambda self: self.env['mpohoda.payment.type'].search([],limit=1),
