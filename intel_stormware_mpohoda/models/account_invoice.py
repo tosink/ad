@@ -3,6 +3,7 @@ from odoo import api, fields, models, _, SUPERUSER_ID
 from odoo.addons.intel_stormware_mpohoda.models.mpohoda_request import MpohodaAPI
 import logging
 import requests
+import base64
 _logger = logging.getLogger(__name__)
 
 class AccountInvoice(models.Model):
@@ -18,8 +19,12 @@ class AccountInvoice(models.Model):
     mpohoda_type_id = fields.Many2one(
         comodel_name='mpohoda.payment.type', 
         string='Mpohoda Payment Type',
+        track_visibility='onchange',
         default=lambda self: self.env['mpohoda.payment.type'].search([],limit=1),
         required=False)
+    
+    document_generated = fields.Boolean(
+        string='Document Generate?')
     
 
     @api.multi
@@ -172,19 +177,28 @@ class AccountInvoice(models.Model):
         return True
     
     def get_document(self):
-        company = self.company_id
-        mpohoda = MpohodaAPI(company.mserver_host, company.mserver_port, company.mserver_user, \
-            company.mserver_password, company.company_registry)
+        if not self.document_generated:
+            company = self.company_id
+            mpohoda = MpohodaAPI(company.mserver_host, company.mserver_port, company.mserver_user, \
+                company.mserver_password, company.company_registry)
 
-        headers = {
-            'Stw-Authorization': 'Basic {}'.format(mpohoda.authorization_code)
-        }
-        url = mpohoda.default_url+'/documents/%s.pdf'%self.number
-        _logger.info('Document URL %s'%url)
-        response = requests.get(url, headers=headers)
-        if response.status_code == 200:
-            _logger.info(response)
-            _logger.info(response.text)
+            headers = {
+                'Stw-Authorization': 'Basic {}'.format(mpohoda.authorization_code)
+            }
+            url = mpohoda.default_url+'/documents/%s.pdf'%self.number
+            _logger.info('Document URL %s'%url)
+            response = requests.get(url, headers=headers)
+            if response.status_code == 200:
+                _logger.info(response)
+                _logger.info('Generating document')
+                self.env['ir.attachment'].sudo().create({
+                    'name':self.number+'.pdf',
+                    'datas_fname':self.number+'.pdf',
+                    'res_model': 'account.invoice',
+                    'res_id': self.id,
+                    'datas':base64.b64encode(response.text.encode('utf-8')).decode('utf-8'),
+                })
+                self.document_generated = True
         return True
 
     
