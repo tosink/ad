@@ -49,8 +49,9 @@ class AccountInvoice(models.Model):
             is_vat_payer = 'true'
         
         mserver_document_path = self.company_id.mserver_document_path or ''
-        if mserver_document_path and mserver_document_path[-1] == '\':
-            mserver_document_path = self.company_id.mserver_document_path
+        if mserver_document_path and mserver_document_path[-1] == "\\":
+            mserver_document_path = self.company_id.mserver_document_path[:-1]
+
         
         payload_item = ''
         mpohoda_vat = 'none'
