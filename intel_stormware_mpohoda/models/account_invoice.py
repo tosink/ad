@@ -162,6 +162,7 @@ class AccountInvoice(models.Model):
         response = requests.post(mpohoda.url, data=payload.encode('Windows-1250'), headers=headers)
         if response.status_code == 200:
             _logger.info(response.text)
+            self.get_document()
         return True
     
     def get_document(self):
@@ -178,6 +179,7 @@ class AccountInvoice(models.Model):
         if response.status_code == 200:
             _logger.info(response)
             _logger.info(response.text)
+        return True
 
     
     @api.multi
