@@ -159,12 +159,25 @@ class AccountInvoice(models.Model):
         _logger.info('Payload %s'%payload)
         response = requests.post(mpohoda.url, data=payload.encode('Windows-1250'), headers=headers)
         if response.status_code == 200:
-            url = mpohoda.default_url+'/documents/%s.pdf'%self.number
-            _logger.info('Document URL %s'%url)
-            response_document = requests.get(url, headers=headers)
-            _logger.info(response_document)
-            _logger.info(response_document.text)
+            _logger.info(response.text)
         return True
+    
+    def get_document(self):
+        company = self.company_id
+        mpohoda = MpohodaAPI(company.mserver_host, company.mserver_port, company.mserver_user, \
+            company.mserver_password, company.company_registry)
+
+        headers = {
+            'Stw-Authorization': 'Basic {}'.format(mpohoda.authorization_code),
+            'Authorization': 'Basic {}'.format(mpohoda.authorization_code),
+            'Content-Type': 'text/plain',
+        }
+        url = mpohoda.default_url+'/documents/%s.pdf'%self.number
+        _logger.info('Document URL %s'%url)
+        response = requests.get(url, headers=headers)
+        _logger.info(response)
+        _logger.info(response.text)
+
     
     @api.multi
     def action_mpohoda_invoice_sent(self):
