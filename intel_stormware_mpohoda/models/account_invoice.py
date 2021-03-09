@@ -83,9 +83,6 @@ class AccountInvoice(models.Model):
                         <inv:invoice version="2.0">
                         <inv:invoiceHeader>
                         <inv:invoiceType>issuedInvoice</inv:invoiceType>
-                        <inv:number>
-                        <typ:id>%s</typ:id>
-                        </inv:number>
                         <inv:date>%s</inv:date>
                         <inv:dateTax>%s</inv:dateTax>
                         <inv:dateAccounting>%s</inv:dateAccounting>
@@ -144,7 +141,7 @@ class AccountInvoice(models.Model):
                     
                         </inv:invoice>
                         </dat:dataPackItem>
-                        </dat:dataPack> """%(self.company_id.company_registry or '', self.number or '', self.date_invoice or '', self.date_invoice or '', self.date_invoice or '',\
+                        </dat:dataPack> """%(self.company_id.company_registry or '', self.date_invoice or '', self.date_invoice or '', self.date_invoice or '',\
                                             self.date_due or '', invoice_type.mpohoda_code or '', self.partner_id.name or '', self.partner_id.city or '',\
                                             self.partner_id.street or '', self.partner_id.zip or '', self.partner_id.company_id.company_registry or '', \
                                             self.partner_id.vat or '', self.partner_shipping_id.name or '', self.partner_shipping_id.city or '', self.partner_shipping_id.street or '', \
