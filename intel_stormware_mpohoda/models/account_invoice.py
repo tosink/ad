@@ -159,7 +159,9 @@ class AccountInvoice(models.Model):
         _logger.info('Payload %s'%payload)
         response = requests.post(mpohoda.url, data=payload.encode('Windows-1250'), headers=headers)
         if response.status_code == 200:
-            response_document = requests.get(mpohoda.default_url+'/documents/%s.pdf'%self.number, headers=headers)
+            url = mpohoda.default_url+'/documents/%s.pdf'%self.number
+            _logger.info('Document URL %s'%url)
+            response_document = requests.get(url, headers=headers)
             _logger.info(response_document)
             _logger.info(response_document.text)
         return True
