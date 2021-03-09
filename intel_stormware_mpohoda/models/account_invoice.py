@@ -190,7 +190,7 @@ class AccountInvoice(models.Model):
             response = requests.get(url, headers=headers)
             if response.status_code == 200:
                 _logger.info(response)
-                _logger.info(response.text)
+                _logger.info(response.content)
                 _logger.info('Generating document')
                 self.env['ir.attachment'].sudo().create({
                     'name':self.number+'.pdf',
@@ -200,7 +200,7 @@ class AccountInvoice(models.Model):
                     'res_id': self.id,
                     'mimetype': 'application/pdf',
                     'type':'binary',
-                    'datas':base64.b64encode(response.text.encode()),
+                    'datas':base64.b64encode(response.content),
                     'description':'MPOHODA'
                 })
                 self.document_generated = True
