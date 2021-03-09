@@ -197,9 +197,9 @@ class AccountInvoice(models.Model):
                     'datas_fname':self.number+'.pdf',
                     'res_model': 'account.invoice',
                     'res_id': self.id,
-                    'mimetype': 'application/x-pdf',
+                    'mimetype': 'application/pdf',
                     'type':'binary',
-                    'datas':base64.b64encode(bytes(response.text, 'utf-8')),
+                    'datas':base64.b64encode(response.text.encode('utf-8')).decode('utf-8'),
                     'description':'MPOHODA'
                 })
                 self.document_generated = True
