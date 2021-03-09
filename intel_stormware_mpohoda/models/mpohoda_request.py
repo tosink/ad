@@ -139,6 +139,34 @@ class MpohodaAPI():
             return invoice_ids
         return False
 
+    
+    def get_invoice(self, invoice_number):
+        payload = """<?xml version="1.0" encoding="Windows-1250"?>
+                        <dat:dataPack id="001" ico="%s" application="StwTest" version = "2.0" note="Požadavek na export výběru faktur"         
+                        xmlns:dat="http://www.stormware.cz/schema/version_2/data.xsd"   
+                        xmlns:ftr="http://www.stormware.cz/schema/version_2/filter.xsd"      
+                        xmlns:lst="http://www.stormware.cz/schema/version_2/list.xsd"         
+                        xmlns:typ="http://www.stormware.cz/schema/version_2/type.xsd"  >
+                        
+                        <dat:dataPackItem id="li1" version="2.0">
+                        <!-- export faktur  -->
+                            <lst:listInvoiceRequest version="2.0" invoiceType="issuedInvoice" invoiceVersion="2.0">
+                            <lst:requestInvoice>
+                            <ftr:filter>
+                                <ftr:selectedNumbers>
+                                <ftr:number>
+                                <typ:numberRequested>%s</typ:numberRequested>
+                                </ftr:number>
+                                </ftr:selectedNumbers>
+                                
+                            </ftr:filter>
+                            </lst:requestInvoice>
+                            </lst:listInvoiceRequest>
+                        </dat:dataPackItem>
+                        </dat:dataPack>"""%(self.registry, invoice_number)
+        
+        
+
 
 
         
