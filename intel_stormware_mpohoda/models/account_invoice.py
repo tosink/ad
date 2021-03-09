@@ -168,9 +168,7 @@ class AccountInvoice(models.Model):
             company.mserver_password, company.company_registry)
 
         headers = {
-            'Stw-Authorization': 'Basic {}'.format(mpohoda.authorization_code),
-            'Authorization': 'Basic {}'.format(mpohoda.authorization_code),
-            'Content-Type': 'text/plain',
+            'Stw-Authorization': 'Basic {}'.format(mpohoda.authorization_code)
         }
         url = mpohoda.default_url+'/documents/%s.pdf'%self.number
         _logger.info('Document URL %s'%url)
