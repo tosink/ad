@@ -21,6 +21,9 @@
                         <group>
                             <field name="mpohoda_status" readonly="True"/>
                         </group>
+                        <group>
+                            <field name="document_generated" readonly="False"/>
+                        </group>
                     </group>
                 </page>
            </page>
@@ -40,6 +43,9 @@
                         </group>
                         <group>
                             <field name="mpohoda_status" readonly="True"/>
+                        </group>
+                        <group>
+                            <field name="document_generated" readonly="True"/>
                         </group>
                     </group>
                 </page>
