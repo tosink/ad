@@ -3,7 +3,6 @@ from odoo import api, fields, models, _, SUPERUSER_ID
 from odoo.addons.intel_stormware_mpohoda.models.mpohoda_request import MpohodaAPI
 import logging
 import requests
-import base64
 _logger = logging.getLogger(__name__)
 
 class AccountInvoice(models.Model):
@@ -190,6 +189,7 @@ class AccountInvoice(models.Model):
             response = requests.get(url, headers=headers)
             if response.status_code == 200:
                 _logger.info(response)
+                _logger.info(response.text)
                 _logger.info('Generating document')
                 self.env['ir.attachment'].sudo().create({
                     'name':self.number+'.pdf',
@@ -198,7 +198,7 @@ class AccountInvoice(models.Model):
                     'res_id': self.id,
                     'mimetype':'application/pdf',
                     'type':'binary',
-                    'datas':base64.b64encode(response.text.encode('utf-8')).decode('utf-8'),
+                    'datas':response.text.encode('base64'),
                 })
                 self.document_generated = True
         return True
