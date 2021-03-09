@@ -47,7 +47,11 @@ class AccountInvoice(models.Model):
         is_vat_payer = 'false'
         if self.company_id.is_vat_payer:
             is_vat_payer = 'true'
-
+        
+        mserver_document_path = self.company_id.mserver_document_path or ''
+        if mserver_document_path and mserver_document_path[-1] == '\':
+            mserver_document_path = self.company_id.mserver_document_path
+        
         payload_item = ''
         mpohoda_vat = 'none'
         for line in self.invoice_line_ids:
@@ -145,7 +149,7 @@ class AccountInvoice(models.Model):
                                             self.partner_id.vat, self.partner_shipping_id.name, self.partner_shipping_id.city, self.partner_shipping_id.street, \
                                             self.partner_shipping_id.zip, self.company_id.name, self.company_id.city, self.company_id.street, self.company_id.zip,\
                                             self.company_id.company_registry, self.company_id.vat, self.origin, confirmation_date, payload_item, \
-                                            self.company_id.mserver_document_path+"\%s.pdf"%(self.number))
+                                            mserver_document_path+"\%s.pdf"%(self.number))
         
         company = self.company_id
         mpohoda = MpohodaAPI(company.mserver_host, company.mserver_port, company.mserver_user, \
@@ -173,8 +177,9 @@ class AccountInvoice(models.Model):
         url = mpohoda.default_url+'/documents/%s.pdf'%self.number
         _logger.info('Document URL %s'%url)
         response = requests.get(url, headers=headers)
-        _logger.info(response)
-        _logger.info(response.text)
+        if response.status_code == 200:
+            _logger.info(response)
+            _logger.info(response.text)
 
     
     @api.multi
