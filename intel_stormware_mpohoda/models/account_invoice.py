@@ -3,6 +3,7 @@ from odoo import api, fields, models, _, SUPERUSER_ID
 from odoo.addons.intel_stormware_mpohoda.models.mpohoda_request import MpohodaAPI
 import logging
 import requests
+import base64
 _logger = logging.getLogger(__name__)
 
 class AccountInvoice(models.Model):
@@ -198,7 +199,7 @@ class AccountInvoice(models.Model):
                     'res_id': self.id,
                     'mimetype':'application/pdf',
                     'type':'binary',
-                    'datas':response.text.encode('base64'),
+                    'datas':base64.b64encode(response.text),
                 })
                 self.document_generated = True
         return True

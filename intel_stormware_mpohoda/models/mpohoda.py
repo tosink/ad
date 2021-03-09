@@ -20,7 +20,8 @@ class MpohodaPaymentType(models.Model):
         readonly=True)
     
     name = fields.Char(
-        related='mpohoda_acquirer', 
+        related='mpohoda_acquirer',
+        string='Payment Method',
         store=True)
     
     company_id = fields.Many2one(
