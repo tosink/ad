@@ -144,13 +144,13 @@ class AccountInvoice(models.Model):
                     
                         </inv:invoice>
                         </dat:dataPackItem>
-                        </dat:dataPack> """%(self.company_id.company_registry, self.number, self.date_invoice, self.date_invoice, self.date_invoice,\
-                                            self.date_due, invoice_type.mpohoda_code, self.partner_id.name, self.partner_id.city,\
-                                            self.partner_id.street, self.partner_id.zip, self.partner_id.company_id.company_registry, \
-                                            self.partner_id.vat, self.partner_shipping_id.name, self.partner_shipping_id.city, self.partner_shipping_id.street, \
-                                            self.partner_shipping_id.zip, self.company_id.name, self.company_id.city, self.company_id.street, self.company_id.zip,\
-                                            self.company_id.company_registry, self.company_id.vat, self.origin, confirmation_date, payload_item, \
-                                            mserver_document_path+"\%s.pdf"%(self.number))
+                        </dat:dataPack> """%(self.company_id.company_registry or '', self.number or '', self.date_invoice or '', self.date_invoice or '', self.date_invoice or '',\
+                                            self.date_due or '', invoice_type.mpohoda_code or '', self.partner_id.name or '', self.partner_id.city or '',\
+                                            self.partner_id.street or '', self.partner_id.zip or '', self.partner_id.company_id.company_registry or '', \
+                                            self.partner_id.vat or '', self.partner_shipping_id.name or '', self.partner_shipping_id.city or '', self.partner_shipping_id.street or '', \
+                                            self.partner_shipping_id.zip or '', self.company_id.name or '', self.company_id.city or '', self.company_id.street or '', self.company_id.zip or '',\
+                                            self.company_id.company_registry or '', self.company_id.vat or '', self.origin or '', confirmation_date or '', payload_item, \
+                                            mserver_document_path+"\%s.pdf"%(self.number or 'Doc'))
         
         company = self.company_id
         mpohoda = MpohodaAPI(company.mserver_host, company.mserver_port, company.mserver_user, \
