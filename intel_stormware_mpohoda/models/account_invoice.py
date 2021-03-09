@@ -140,9 +140,9 @@ class AccountInvoice(models.Model):
                         </inv:invoice>
                         </dat:dataPackItem>
                         </dat:dataPack> """%(self.company_id.company_registry, self.number, self.date_invoice, self.date_invoice, self.date_invoice,\
-                                            self.date_due, invoice_type.mpohoda_code, self.partner_id.company_id.name, self.partner_id.city,\
+                                            self.date_due, invoice_type.mpohoda_code, self.partner_id.name, self.partner_id.city,\
                                             self.partner_id.street, self.partner_id.zip, self.partner_id.company_id.company_registry, \
-                                            self.partner_id.vat, self.partner_shipping_id.company_id.name, self.partner_shipping_id.city, self.partner_shipping_id.street, \
+                                            self.partner_id.vat, self.partner_shipping_id.name, self.partner_shipping_id.city, self.partner_shipping_id.street, \
                                             self.partner_shipping_id.zip, self.company_id.name, self.company_id.city, self.company_id.street, self.company_id.zip,\
                                             self.company_id.company_registry, self.company_id.vat, self.origin, confirmation_date, payload_item, \
                                             self.company_id.mserver_document_path+"\%s.pdf"%(self.number))
