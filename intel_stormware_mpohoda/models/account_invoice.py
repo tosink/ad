@@ -25,6 +25,7 @@ class AccountInvoice(models.Model):
     @api.multi
     def invoice_validate(self):
         res = super(AccountInvoice, self).invoice_validate()
+        self.env.cr.commit()
         for invoice in self:
             #try:
             _logger.info('Sending invoice %s to MPOHODA'%invoice.name)
