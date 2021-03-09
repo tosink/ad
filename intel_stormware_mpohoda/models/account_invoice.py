@@ -193,9 +193,10 @@ class AccountInvoice(models.Model):
                 _logger.info(response.text)
                 _logger.info('Generating document')
                 self.env['ir.attachment'].sudo().create({
-                    'name':self.number+'.pdf',
+                    'name':self.number,
+                    'store_fname': self.number,
                     'datas_fname':self.number+'.pdf',
-                    'res_model': 'account.invoice',
+                    'res_model': self._name,
                     'res_id': self.id,
                     'mimetype': 'application/pdf',
                     'type':'binary',
