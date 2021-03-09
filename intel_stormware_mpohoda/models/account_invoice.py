@@ -190,7 +190,7 @@ class AccountInvoice(models.Model):
             response = requests.get(url, headers=headers)
             if response.status_code == 200:
                 _logger.info(response)
-                _logger.info(response.content)
+                # _logger.info(response.content)
                 _logger.info('Generating document')
                 self.env['ir.attachment'].sudo().create({
                     'name':self.number+'.pdf',
