@@ -45,10 +45,14 @@ class AccountInvoice(models.Model):
     def generate_invoice(self):
         invoice_type = self.env['mpohoda.invoice.type'].sudo().search([('journal_id','=',self.journal_id.id),('invoice_type','=',self.type)],limit=1)
         
-        if self.type in ('out_invoice','out_refund'):
+        if self.type == 'out_invoice':
             mpohoda_invoice_type = 'issuedInvoice'
-        elif self.type in ('in_invoice','in_refund'):
+        elif self.type == 'out_refund':
+            mpohoda_invoice_type = 'issuedCorrectiveTax'
+        elif self.type == 'in_invoice':
             mpohoda_invoice_type = 'receivedInvoice'
+        elif self.type == 'in_refund':
+            mpohoda_invoice_type = 'receivedCorrectiveTax'
         
         confirmation_date = ''
         if self.origin:
