@@ -43,7 +43,13 @@ class AccountInvoice(models.Model):
         return res
     
     def generate_invoice(self):
-        invoice_type = self.env['mpohoda.invoice.type'].sudo().search([('journal_id','=',self.journal_id.id)],limit=1)
+        invoice_type = self.env['mpohoda.invoice.type'].sudo().search([('journal_id','=',self.journal_id.id),('invoice_type','=',self.type)],limit=1)
+        
+        if self.type in ('out_invoice','out_refund'):
+            mpohoda_invoice_type = 'issuedInvoice'
+        elif self.type in ('in_invoice','in_refund'):
+            mpohoda_invoice_type = 'receivedInvoice'
+        
         confirmation_date = ''
         if self.origin:
             sale = self.env['sale.order'].sudo().search([('name','=',self.origin)],limit=1)
@@ -87,7 +93,7 @@ class AccountInvoice(models.Model):
                         <dat:dataPackItem id="AD001" version="2.0">
                         <inv:invoice version="2.0">
                         <inv:invoiceHeader>
-                        <inv:invoiceType>issuedInvoice</inv:invoiceType>
+                        <inv:invoiceType>%s</inv:invoiceType>
                         <inv:number>
                         <typ:id>%s</typ:id>
                         </inv:number>
@@ -152,7 +158,7 @@ class AccountInvoice(models.Model):
                     
                         </inv:invoice>
                         </dat:dataPackItem>
-                        </dat:dataPack> """%(self.company_id.company_registry or '', invoice_type.mpohoda_code or '', self.date_invoice or '', self.date_invoice or '', self.date_invoice or '',\
+                        </dat:dataPack> """%(self.company_id.company_registry or '', mpohoda_invoice_type, invoice_type.mpohoda_code or '', self.date_invoice or '', self.date_invoice or '', self.date_invoice or '',\
                                             self.date_due or '', self.partner_id.name or '', self.partner_id.city or '',\
                                             self.partner_id.street or '', self.partner_id.zip or '', self.partner_id.company_id.company_registry or '', \
                                             self.partner_id.vat or '', self.partner_shipping_id.name or '', self.partner_shipping_id.city or '', self.partner_shipping_id.street or '', \
