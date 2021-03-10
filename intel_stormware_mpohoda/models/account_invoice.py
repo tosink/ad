@@ -234,7 +234,7 @@ class AccountInvoice(models.Model):
         }
         ctx = dict(
             default_model='account.invoice',
-            default_res_id=setemplate_idlf.id,
+            default_res_id=self.id,
             default_use_template=bool(template),
             default_template_id=template and template.id or False,
             default_composition_mode='comment',
