@@ -44,15 +44,17 @@ class AccountInvoice(models.Model):
     
     def generate_invoice(self):
         invoice_type = self.env['mpohoda.invoice.type'].sudo().search([('journal_id','=',self.journal_id.id),('invoice_type','=',self.type)],limit=1)
-        
+        sign = 1
         if self.type == 'out_invoice':
             mpohoda_invoice_type = 'issuedInvoice'
         elif self.type == 'out_refund':
             mpohoda_invoice_type = 'issuedCorrectiveTax'
+            sign = -1
         elif self.type == 'in_invoice':
             mpohoda_invoice_type = 'receivedInvoice'
         elif self.type == 'in_refund':
             mpohoda_invoice_type = 'receivedCorrectiveTax'
+            sign = -1
         
         confirmation_date = ''
         if self.origin:
@@ -86,7 +88,7 @@ class AccountInvoice(models.Model):
                             <typ:unitPrice>%s</typ:unitPrice>
                             </inv:homeCurrency>
                             <inv:PDP>false</inv:PDP>
-                            </inv:invoiceItem>"""%(line.id, line.name,line.quantity, line.uom_id.name, is_vat_payer, mpohoda_vat, line.price_unit)
+                            </inv:invoiceItem>"""%(line.id, line.name,line.quantity * sign, line.uom_id.name, is_vat_payer, mpohoda_vat, line.price_unit)
             
         payload = """<?xml version="1.0" encoding="Windows-1250"?>
                         <dat:dataPack id="fa001" ico="%s" application="StwTest" version = "2.0" note="Import FA"        
