@@ -9,7 +9,7 @@
                 <field name="body" position="after">
                     <group>
                         <group>
-                            <field name="get_document" string="Get POHODA Document" attrs="{'invisible':[('readonly':[('get_document','!=',False)]}"/>
+                            <field name="get_document" string="Get POHODA Document" attrs="{'readonly':[('get_document','!=',False)]}"/>
                         </group>
                     </group>
                 </field>
