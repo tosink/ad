@@ -9,7 +9,7 @@
                 <field name="body" position="after">
                     <group>
                         <group>
-                            <button name="get_mpohoda_document" string="Get POHODA Document" type="object" class="oe_highlight"/>
+                            <field name="get_document" string="Get POHODA Document" attrs="{'invisible':[('readonly':[('get_document','!=',False)]}"/>
                         </group>
                     </group>
                 </field>
