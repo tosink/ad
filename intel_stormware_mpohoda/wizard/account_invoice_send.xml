@@ -9,7 +9,7 @@
                 <field name="body" position="after">
                     <group>
                         <group>
-                            <field name="get_mpohoda_document" string="Get POHODA Document"/>
+                            <button name="get_mpohoda_document" string="Get POHODA Document" type="object" class="oe_highlight"/>
                         </group>
                     </group>
                 </field>
