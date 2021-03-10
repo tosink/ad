@@ -56,6 +56,12 @@ class MpohodaInvoiceType(models.Model):
         string='Mpohoda Code',
         readonly=True)
     
+    invoice_type = fields.Selection(
+        [('out_invoice',_('Invoice')),('in_invoice',_('Vendor Bill')),
+        ('out_refund',_('Credit Note')),('in_refund',_('Vendor Credit note'))],
+        string='Invoice Type')
+
+    
     company_id = fields.Many2one(
         comodel_name='res.company', 
         string='Company', 
@@ -65,9 +71,9 @@ class MpohodaInvoiceType(models.Model):
     @api.constrains('journal_id')
     def _check_journal(self):
         for t in self:
-            if t.journal_id:
-                if self.search_count([('journal_id','=',t.journal_id.id)]) > 1:
-                    raise ValidationError(_('Journal must be unique!'))
+            if t.journal_id and t.invoice_type:
+                if self.search_count([('journal_id','=',t.journal_id.id),('invoice_type','=',t.invoice_type)]) > 1:
+                    raise ValidationError(_('Journal and invoice type must be unique!'))
 
 
 
