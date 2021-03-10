@@ -234,11 +234,10 @@ class AccountInvoice(models.Model):
         }
         ctx = dict(
             default_model='account.invoice',
-            default_res_id=self.id,
+            default_res_id=setemplate_idlf.id,
             default_use_template=bool(template),
             default_template_id=template and template.id or False,
             default_composition_mode='comment',
-            default_attachment_ids=[(6,0,[])],
             mark_invoice_as_sent=True,
             model_description=TYPES[self.type],
             custom_layout="mail.mail_notification_paynow",
