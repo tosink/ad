@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="compose_message_from_invoice_mpohoda" model="ir.ui.view">
+            <field name="name">compose.message.from.invoice.mpohoda</field>
+            <field name="model">account.invoice.send</field>
+            <field name="inherit_id" ref="account.account_invoice_send_wizard_form" />
+            <field name="arch" type="xml">
+                <field name="body" position="after">
+                    <group>
+                        <group>
+                            <field name="get_mpohoda_document" string="Get POHODA Document"/>
+                        </group>
+                    </group>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

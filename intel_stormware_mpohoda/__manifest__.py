@@ -17,6 +17,7 @@
         "views/base_config_view.xml",
         "views/account_tax.xml",
         "views/account_invoice.xml",
+        "wizard/account_invoice_send.xml",
         "security/ir.model.access.csv",
     ],
     "auto_install": False,
