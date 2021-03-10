@@ -11,7 +11,8 @@ _logger = logging.getLogger(__name__)
 class AccountInvoiceSend(models.TransientModel):
     _inherit = "account.invoice.send"
 
-    @api.onchange('template_id')
+    @api.onchange('attachment_ids')
     def onchange_template(self):
-        _logger.info('TEMPLATE ATTACHMENT')
-        self.attachment_ids = [(6,0,[])]
+        if self.attachment_ids.ids:
+            _logger.info('TEMPLATE ATTACHMENT')
+            self.attachment_ids = [(6,0,[])]
