@@ -69,7 +69,6 @@ class AccountInvoice(models.Model):
         if mserver_document_path and mserver_document_path[-1] == "\\":
             mserver_document_path = self.company_id.mserver_document_path[:-1]
 
-        
         payload_item = ''
         mpohoda_vat = 'none'
         for line in self.invoice_line_ids:
@@ -88,7 +87,7 @@ class AccountInvoice(models.Model):
                             <typ:unitPrice>%s</typ:unitPrice>
                             </inv:homeCurrency>
                             <inv:PDP>false</inv:PDP>
-                            </inv:invoiceItem>"""%(line.id, line.name, line.quantity * sign, line.uom_id.name, is_vat_payer, mpohoda_vat, line.price_unit)
+                            </inv:invoiceItem>"""%(line.id, line.name,line.quantity * sign, line.uom_id.name, is_vat_payer, mpohoda_vat, line.price_unit)
             
         payload = """<?xml version="1.0" encoding="Windows-1250"?>
                         <dat:dataPack id="fa001" ico="%s" application="StwTest" version = "2.0" note="Import FA"        
