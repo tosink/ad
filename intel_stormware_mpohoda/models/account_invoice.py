@@ -158,7 +158,7 @@ class AccountInvoice(models.Model):
                             <inv:print>
                             <prn:printerSettings>
                             <prn:report>
-                            <prn:id>190</prn:id>
+                            <prn:id>2600</prn:id>
                             </prn:report>
                             <prn:pdf>
                             <prn:fileName>%s</prn:fileName>
