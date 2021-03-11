@@ -61,6 +61,9 @@ class AccountInvoice(models.Model):
             sale = self.env['sale.order'].sudo().search([('name','=',self.origin)],limit=1)
             if sale.confirmation_date:
                 confirmation_date = str(sale.confirmation_date).split(' ')[0]
+            purchase = self.env['purchase.order'].sudo().search([('name','=',self.origin)],limit=1)
+            if purchase.date_order:
+                confirmation_date = str(purchase.date_order).split(' ')[0]
         is_vat_payer = 'false'
         if self.company_id.is_vat_payer:
             is_vat_payer = 'true'
@@ -88,88 +91,174 @@ class AccountInvoice(models.Model):
                             </inv:homeCurrency>
                             <inv:PDP>false</inv:PDP>
                             </inv:invoiceItem>"""%(line.id, line.name,line.quantity * sign, line.uom_id.name, is_vat_payer, mpohoda_vat, line.price_unit)
-            
-        payload = """<?xml version="1.0" encoding="Windows-1250"?>
-                        <dat:dataPack id="fa001" ico="%s" application="StwTest" version = "2.0" note="Import FA"        
-                        xmlns:dat="http://www.stormware.cz/schema/version_2/data.xsd"        
-                        xmlns:inv="http://www.stormware.cz/schema/version_2/invoice.xsd"        
-                        xmlns:typ="http://www.stormware.cz/schema/version_2/type.xsd"
-                        xmlns:prn="http://www.stormware.cz/schema/version_2/print.xsd">
-                        <dat:dataPackItem id="AD001" version="2.0">
-                        <inv:invoice version="2.0">
-                        <inv:invoiceHeader>
-                        <inv:invoiceType>%s</inv:invoiceType>
-                        <inv:number>
-                        <typ:id>%s</typ:id>
-                        </inv:number>
-                        <inv:date>%s</inv:date>
-                        <inv:dateTax>%s</inv:dateTax>
-                        <inv:dateAccounting>%s</inv:dateAccounting>
-                        <inv:dateDue>%s</inv:dateDue>
-                        <inv:accounting>
-                        <typ:id>17</typ:id>
-                        </inv:accounting>
-                        <inv:text>Fakturujeme Vám:</inv:text>
-                        <inv:partnerIdentity>
-                        <typ:address>
-                        <typ:company>%s</typ:company>
-                        <typ:city>%s</typ:city>
-                        <typ:street>%s</typ:street>
-                        <typ:zip>%s</typ:zip>
-                        <typ:ico>%s</typ:ico>
-                        <typ:dic>%s</typ:dic>
-                        </typ:address>
-                        <typ:shipToAddress>
-                        <typ:company>%s</typ:company>
-                        <typ:city>%s</typ:city>
-                        <typ:street>%s </typ:street>
-                        <typ:zip>%s</typ:zip>
-                        </typ:shipToAddress>
-                        </inv:partnerIdentity>
-                        <inv:myIdentity>
-                        <typ:address>
-                        <typ:company>%s</typ:company>
-                        <typ:city>%s</typ:city>
-                        <typ:street>%s</typ:street>
-                        <typ:zip>%s</typ:zip>
-                        <typ:ico>%s</typ:ico>
-                        <typ:dic>%s</typ:dic>
-                        </typ:address>
-                        </inv:myIdentity>
-                        <inv:numberOrder>%s</inv:numberOrder>
-                        <inv:dateOrder>%s</inv:dateOrder>
-                        <inv:paymentType>
-                        <typ:id>1</typ:id>
-                        </inv:paymentType>
-                        <inv:account>
-                        <typ:id>3</typ:id>
-                        </inv:account>
-                        <inv:symConst>0308</inv:symConst> 
-                        <inv:markRecord>false</inv:markRecord>
-                        </inv:invoiceHeader>
-                        <inv:invoiceDetail>
-                            %s
-                        </inv:invoiceDetail>
-                        <inv:print>
-                        <prn:printerSettings>
-                        <prn:report>
-                        <prn:id>190</prn:id>
-                        </prn:report>
-                        <prn:pdf>
-                        <prn:fileName>%s</prn:fileName>
-                        </prn:pdf>
-                        </prn:printerSettings>
-                        </inv:print>
-                    
-                        </inv:invoice>
-                        </dat:dataPackItem>
-                        </dat:dataPack> """%(self.company_id.company_registry or '', mpohoda_invoice_type, invoice_type.mpohoda_code or '', self.date_invoice or '', self.date_invoice or '', self.date_invoice or '',\
-                                            self.date_due or '', self.partner_id.name or '', self.partner_id.city or '',\
-                                            self.partner_id.street or '', self.partner_id.zip or '', self.partner_id.company_id.company_registry or '', \
-                                            self.partner_id.vat or '', self.partner_shipping_id.name or '', self.partner_shipping_id.city or '', self.partner_shipping_id.street or '', \
-                                            self.partner_shipping_id.zip or '', self.company_id.name or '', self.company_id.city or '', self.company_id.street or '', self.company_id.zip or '',\
-                                            self.company_id.company_registry or '', self.company_id.vat or '', self.origin or '', confirmation_date or '', payload_item, \
-                                            mserver_document_path+"\%s.pdf"%(self.number or 'Doc'))
+
+        if self.type in ('in_invoice','in_refund'): 
+            payload = """<?xml version="1.0" encoding="Windows-1250"?>
+                            <dat:dataPack id="fa001" ico="%s" application="StwTest" version = "2.0" note="Import FA"        
+                            xmlns:dat="http://www.stormware.cz/schema/version_2/data.xsd"        
+                            xmlns:inv="http://www.stormware.cz/schema/version_2/invoice.xsd"        
+                            xmlns:typ="http://www.stormware.cz/schema/version_2/type.xsd"
+                            xmlns:prn="http://www.stormware.cz/schema/version_2/print.xsd">
+                            <dat:dataPackItem id="AD001" version="2.0">
+                            <inv:invoice version="2.0">
+                            <inv:invoiceHeader>
+                            <inv:invoiceType>%s</inv:invoiceType>
+                            <inv:number>
+                            <typ:id>%s</typ:id>
+                            </inv:number>
+                            <inv:date>%s</inv:date>
+                            <inv:dateTax>%s</inv:dateTax>
+                            <inv:dateAccounting>%s</inv:dateAccounting>
+                            <inv:dateDue>%s</inv:dateDue>
+                            <inv:accounting>
+                            <typ:id>20</typ:id>
+                            </inv:accounting>
+                            <inv:text>Fakturujeme Vám:</inv:text>
+                            <inv:partnerIdentity>
+                            <typ:address>
+                            <typ:company>%s</typ:company>
+                            <typ:city>%s</typ:city>
+                            <typ:street>%s</typ:street>
+                            <typ:zip>%s</typ:zip>
+                            <typ:ico>%s</typ:ico>
+                            <typ:dic>%s</typ:dic>
+                            </typ:address>
+                            <typ:shipToAddress>
+                            <typ:company>%s</typ:company>
+                            <typ:city>%s</typ:city>
+                            <typ:street>%s </typ:street>
+                            <typ:zip>%s</typ:zip>
+                            </typ:shipToAddress>
+                            </inv:partnerIdentity>
+                            <inv:myIdentity>
+                            <typ:address>
+                            <typ:company>%s</typ:company>
+                            <typ:city>%s</typ:city>
+                            <typ:street>%s</typ:street>
+                            <typ:zip>%s</typ:zip>
+                            <typ:ico>%s</typ:ico>
+                            <typ:dic>%s</typ:dic>
+                            </typ:address>
+                            </inv:myIdentity>
+                            <inv:paymentType>
+                            <typ:id>1</typ:id>
+                            </inv:paymentType>
+                            <inv:symVar>%s</inv:symVar>
+                            <inv:originalDocument>%s</inv:originalDocument>
+                            <inv:symConst>0308</inv:symConst> 
+                            <inv:paymentAccount>
+                            <typ:accountNo>%s</typ:accountNo>
+                            <typ:bankCode>%s</typ:bankCode>
+                            </inv:paymentAccount>
+                            <inv:markRecord>false</inv:markRecord>
+                            </inv:invoiceHeader>
+                            <inv:invoiceDetail>
+                                %s
+                            </inv:invoiceDetail>
+                            <inv:print>
+                            <prn:printerSettings>
+                            <prn:report>
+                            <prn:id>190</prn:id>
+                            </prn:report>
+                            <prn:pdf>
+                            <prn:fileName>%s</prn:fileName>
+                            </prn:pdf>
+                            </prn:printerSettings>
+                            </inv:print>
+                        
+                            </inv:invoice>
+                            </dat:dataPackItem>
+                            </dat:dataPack> """%(self.company_id.company_registry or '', mpohoda_invoice_type, invoice_type.mpohoda_code or '', self.date_invoice or '', self.date_invoice or '', self.date_invoice or '',\
+                                                self.date_due or '', self.partner_id.name or '', self.partner_id.city or '',\
+                                                self.partner_id.street or '', self.partner_id.zip or '', self.partner_id.company_id.company_registry or '', \
+                                                self.partner_id.vat or '', self.partner_shipping_id.name or '', self.partner_shipping_id.city or '', self.partner_shipping_id.street or '', \
+                                                self.partner_shipping_id.zip or '', self.company_id.name or '', self.company_id.city or '', self.company_id.street or '', self.company_id.zip or '',\
+                                                self.company_id.company_registry or '', self.company_id.vat or '', self.reference or '', self.origin or '', self.partner_bank_id.acc_number or '', \
+                                                self.partner_bank_id.bank_id.bic or '', payload_item, \
+                                                mserver_document_path+"\%s.pdf"%(self.number or 'Doc'))
+        
+        elif self.type in ('out_invoice','out_refund'):
+            payload = """<?xml version="1.0" encoding="Windows-1250"?>
+                            <dat:dataPack id="fa001" ico="%s" application="StwTest" version = "2.0" note="Import FA"        
+                            xmlns:dat="http://www.stormware.cz/schema/version_2/data.xsd"        
+                            xmlns:inv="http://www.stormware.cz/schema/version_2/invoice.xsd"        
+                            xmlns:typ="http://www.stormware.cz/schema/version_2/type.xsd"
+                            xmlns:prn="http://www.stormware.cz/schema/version_2/print.xsd">
+                            <dat:dataPackItem id="AD001" version="2.0">
+                            <inv:invoice version="2.0">
+                            <inv:invoiceHeader>
+                            <inv:invoiceType>%s</inv:invoiceType>
+                            <inv:number>
+                            <typ:id>%s</typ:id>
+                            </inv:number>
+                            <inv:date>%s</inv:date>
+                            <inv:dateTax>%s</inv:dateTax>
+                            <inv:dateAccounting>%s</inv:dateAccounting>
+                            <inv:dateDue>%s</inv:dateDue>
+                            <inv:accounting>
+                            <typ:id>17</typ:id>
+                            </inv:accounting>
+                            <inv:text>Fakturujeme Vám:</inv:text>
+                            <inv:partnerIdentity>
+                            <typ:address>
+                            <typ:company>%s</typ:company>
+                            <typ:city>%s</typ:city>
+                            <typ:street>%s</typ:street>
+                            <typ:zip>%s</typ:zip>
+                            <typ:ico>%s</typ:ico>
+                            <typ:dic>%s</typ:dic>
+                            </typ:address>
+                            <typ:shipToAddress>
+                            <typ:company>%s</typ:company>
+                            <typ:city>%s</typ:city>
+                            <typ:street>%s </typ:street>
+                            <typ:zip>%s</typ:zip>
+                            </typ:shipToAddress>
+                            </inv:partnerIdentity>
+                            <inv:myIdentity>
+                            <typ:address>
+                            <typ:company>%s</typ:company>
+                            <typ:city>%s</typ:city>
+                            <typ:street>%s</typ:street>
+                            <typ:zip>%s</typ:zip>
+                            <typ:ico>%s</typ:ico>
+                            <typ:dic>%s</typ:dic>
+                            </typ:address>
+                            </inv:myIdentity>
+                            <inv:numberOrder>%s</inv:numberOrder>
+                            <inv:dateOrder>%s</inv:dateOrder>
+                            <inv:paymentType>
+                            <typ:id>1</typ:id>
+                            </inv:paymentType>
+                            <inv:account>
+                            <typ:id>3</typ:id>
+                            </inv:account>
+                            <inv:symConst>0308</inv:symConst> 
+                            <inv:markRecord>false</inv:markRecord>
+                            </inv:invoiceHeader>
+                            <inv:invoiceDetail>
+                                %s
+                            </inv:invoiceDetail>
+                            <inv:print>
+                            <prn:printerSettings>
+                            <prn:report>
+                            <prn:id>190</prn:id>
+                            </prn:report>
+                            <prn:pdf>
+                            <prn:fileName>%s</prn:fileName>
+                            </prn:pdf>
+                            </prn:printerSettings>
+                            </inv:print>
+                        
+                            </inv:invoice>
+                            </dat:dataPackItem>
+                            </dat:dataPack> """%(self.company_id.company_registry or '', mpohoda_invoice_type, invoice_type.mpohoda_code or '', self.date_invoice or '', self.date_invoice or '', self.date_invoice or '',\
+                                                self.date_due or '', self.partner_id.name or '', self.partner_id.city or '',\
+                                                self.partner_id.street or '', self.partner_id.zip or '', self.partner_id.company_id.company_registry or '', \
+                                                self.partner_id.vat or '', self.partner_shipping_id.name or '', self.partner_shipping_id.city or '', self.partner_shipping_id.street or '', \
+                                                self.partner_shipping_id.zip or '', self.company_id.name or '', self.company_id.city or '', self.company_id.street or '', self.company_id.zip or '',\
+                                                self.company_id.company_registry or '', self.company_id.vat or '', self.origin or '', confirmation_date or '', payload_item, \
+                                                mserver_document_path+"\%s.pdf"%(self.number or 'Doc'))
         
         company = self.company_id
         mpohoda = MpohodaAPI(company.mserver_host, company.mserver_port, company.mserver_user, \
