@@ -77,6 +77,7 @@ class AccountInvoice(models.Model):
         for line in self.invoice_line_ids:
             if line.invoice_line_tax_ids:
                 mpohoda_vat = line.invoice_line_tax_ids[0].mpohoda_vat
+                translation = self.env['ir.translation'].sudo().search([('source','=',line.uom_id.name),('lang','=','cs_CZ')],limit=1)
             payload_item += """<inv:invoiceItem>
                             <inv:id>%s</inv:id>
                             <inv:text>%s</inv:text>
@@ -90,7 +91,7 @@ class AccountInvoice(models.Model):
                             <typ:unitPrice>%s</typ:unitPrice>
                             </inv:homeCurrency>
                             <inv:PDP>false</inv:PDP>
-                            </inv:invoiceItem>"""%(line.id, line.name,line.quantity * sign, line.uom_id.name, is_vat_payer, mpohoda_vat, line.price_unit)
+                            </inv:invoiceItem>"""%(line.id, line.product_id.name,line.quantity * sign, translation.value, is_vat_payer, mpohoda_vat, line.price_unit)
 
         if self.type in ('in_invoice','in_refund'): 
             payload = """<?xml version="1.0" encoding="Windows-1250"?>
@@ -170,7 +171,7 @@ class AccountInvoice(models.Model):
                             </dat:dataPackItem>
                             </dat:dataPack> """%(self.company_id.company_registry or '', mpohoda_invoice_type, invoice_type.mpohoda_code or '', self.date_invoice or '', self.date_invoice or '', self.date_invoice or '',\
                                                 self.date_due or '', self.partner_id.name or '', self.partner_id.city or '',\
-                                                self.partner_id.street or '', self.partner_id.zip or '', self.partner_id.company_id.company_registry or '', \
+                                                self.partner_id.street or '', self.partner_id.zip or '', self.partner_id.company_registry or '', \
                                                 self.partner_id.vat or '', self.partner_shipping_id.name or '', self.partner_shipping_id.city or '', self.partner_shipping_id.street or '', \
                                                 self.partner_shipping_id.zip or '', self.company_id.name or '', self.company_id.city or '', self.company_id.street or '', self.company_id.zip or '',\
                                                 self.company_id.company_registry or '', self.company_id.vat or '', self.reference or '', self.number or '', self.partner_bank_id.acc_number or '', \
@@ -254,7 +255,7 @@ class AccountInvoice(models.Model):
                             </dat:dataPackItem>
                             </dat:dataPack> """%(self.company_id.company_registry or '', mpohoda_invoice_type, invoice_type.mpohoda_code or '', self.date_invoice or '', self.date_invoice or '', self.date_invoice or '',\
                                                 self.date_due or '', self.partner_id.name or '', self.partner_id.city or '',\
-                                                self.partner_id.street or '', self.partner_id.zip or '', self.partner_id.company_id.company_registry or '', \
+                                                self.partner_id.street or '', self.partner_id.zip or '', self.partner_id.company_registry or '', \
                                                 self.partner_id.vat or '', self.partner_shipping_id.name or '', self.partner_shipping_id.city or '', self.partner_shipping_id.street or '', \
                                                 self.partner_shipping_id.zip or '', self.company_id.name or '', self.company_id.city or '', self.company_id.street or '', self.company_id.zip or '',\
                                                 self.company_id.company_registry or '', self.company_id.vat or '', self.origin or '', confirmation_date or '', payload_item, \
@@ -273,7 +274,8 @@ class AccountInvoice(models.Model):
         response = requests.post(mpohoda.url, data=payload.encode('Windows-1250'), headers=headers)
         if response.status_code == 200:
             _logger.info(response.text)
-            self.get_document()
+            if not self.env.context.get('get_document', False):
+                self.get_document()
         return True
     
     def get_document(self):
@@ -304,6 +306,8 @@ class AccountInvoice(models.Model):
                     'description':'MPOHODA'
                 })
                 self.document_generated = True
+            else:
+                self.with_context({'get_document':True}).generate_invoice()
         return True
 
     

@@ -88,17 +88,24 @@ class MpohodaAPI():
 
         response = requests.post(self.url, data=payload.encode('Windows-1250'), headers=headers)
         if response.status_code == 200:
+            id = []
+            ids = []
             bank_ids = []
             #_logger.info(self.authorization_code)
             # _logger.info(payload)
             # _logger.info(response)
-            # _logger.info(response.text)
+            _logger.info(response.text)
             tree = ET.ElementTree(ET.fromstring(response.text))
             root = tree.getroot()
             # _logger.info([elem.tag for elem in root.iter()])
-            for bank_id in root.iter('{http://www.stormware.cz/schema/version_2/bankAccount.xsd}bankAccountHeader'):
-                # _logger.info(bank_id.text)
-                bank_ids.append((bank_id.get('id'), bank_id.get('ids')))
+            for bank_id in root.iter('{http://www.stormware.cz/schema/version_2/bankAccount.xsd}id'):
+                id.append(bank_id.text)
+            for bank_id in root.iter('{http://www.stormware.cz/schema/version_2/bankAccount.xsd}ids'):
+                ids.append(bank_id.text)
+            
+            if id and ids:
+                for i in range(0, len(ids)):
+                    bank_ids.append((id[i], ids[i]))
             return bank_ids
         return False
     

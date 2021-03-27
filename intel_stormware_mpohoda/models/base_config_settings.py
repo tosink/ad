@@ -53,16 +53,18 @@ class ResConfigSettings(models.TransientModel):
         mpohoda = MpohodaAPI(self.mserver_host, self.mserver_port, self.mserver_user, \
             self.mserver_password, self.company_id.company_registry)
         types = mpohoda.get_payment_types()
+        _logger.info('PTypes %s',types)
         if types:
             for code, name in types:
-                if not self.env['mpohoda.payment.type'].sudo().search([('mpohoda_code','=',code)], limit=1):
-                    self.env['mpohoda.payment.type'].sudo().create({'mpohoda_code':code, 'mpohoda_acquirer':name})
+                if not self.env['mpohoda.payment.type'].search([('mpohoda_code','=',code)], limit=1):
+                    self.env['mpohoda.payment.type'].create({'mpohoda_code':code, 'mpohoda_acquirer':name})
         
         types = mpohoda.get_invoice_types()
+        _logger.info('ITypes %s',types)
         if types:
             for code, name in types:
-                if not self.env['mpohoda.invoice.type'].sudo().search([('mpohoda_code','=',code)], limit=1):
-                    self.env['mpohoda.invoice.type'].sudo().create({'mpohoda_code':code, 'mpohoda_journal':name})
+                if not self.env['mpohoda.invoice.type'].search([('mpohoda_code','=',code)], limit=1):
+                    self.env['mpohoda.invoice.type'].create({'mpohoda_code':code, 'mpohoda_journal':name})
         return True
 
     
