@@ -273,9 +273,9 @@ class AccountInvoice(models.Model):
         _logger.info('Payload %s'%payload)
         response = requests.post(mpohoda.url, data=payload.encode('Windows-1250'), headers=headers)
         if response.status_code == 200:
-            _logger.info(response.text)
-            if not self.env.context.get('get_document', False):
-                self.get_document()
+            # _logger.info(response.text)
+            # if not self.env.context.get('get_document', False):
+            self.get_document()
         return True
     
     def get_document(self):
@@ -306,8 +306,8 @@ class AccountInvoice(models.Model):
                     'description':'MPOHODA'
                 })
                 self.document_generated = True
-            else:
-                self.with_context({'get_document':True}).generate_invoice()
+            # else:
+            #     self.with_context({'get_document':True}).generate_invoice()
         return True
 
     
