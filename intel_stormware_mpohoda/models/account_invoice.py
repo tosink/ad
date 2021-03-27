@@ -31,14 +31,14 @@ class AccountInvoice(models.Model):
     def invoice_validate(self):
         res = super(AccountInvoice, self).invoice_validate()
         for invoice in self:
-            try:
-                _logger.info('Sending invoice %s to MPOHODA'%invoice.number)
-                invoice.generate_invoice()
-                invoice.mpohoda_status = 'sent'
-                _logger.info('Generated invoice %s from MPOHODA'%invoice.number)
-            except Exception as e:
-                invoice.mpohoda_status = 'error'
-                _logger.info('Error for invoice %s from MPOHODA: %s'%(invoice.name,e))
+            #try:
+            _logger.info('Sending invoice %s to MPOHODA'%invoice.number)
+            invoice.generate_invoice()
+            invoice.mpohoda_status = 'sent'
+            _logger.info('Generated invoice %s from MPOHODA'%invoice.number)
+            # except Exception as e:
+            #     invoice.mpohoda_status = 'error'
+            #     _logger.info('Error for invoice %s from MPOHODA: %s'%(invoice.name,e))
 
         return res
     
