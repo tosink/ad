@@ -77,7 +77,7 @@ class AccountInvoice(models.Model):
         for line in self.invoice_line_ids:
             if line.invoice_line_tax_ids:
                 mpohoda_vat = line.invoice_line_tax_ids[0].mpohoda_vat
-                translation = self.env['ir.translation'].sudo().search([('source','=',line.uom_id.name),('lang','=','cs_CZ')],limit=1)
+            translation = self.env['ir.translation'].sudo().search([('source','=',line.uom_id.name),('lang','=','cs_CZ')],limit=1)
             payload_item += """<inv:invoiceItem>
                             <inv:id>%s</inv:id>
                             <inv:text>%s</inv:text>
